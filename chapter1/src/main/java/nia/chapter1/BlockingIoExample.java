@@ -18,6 +18,7 @@ public class BlockingIoExample {
      * Listing 1.1 Blocking I/O example
      * */
     public void serve(int portNumber) throws IOException {
+        System.out.println(portNumber);
         ServerSocket serverSocket = new ServerSocket(portNumber);
         Socket clientSocket = serverSocket.accept();
         BufferedReader in = new BufferedReader(
@@ -27,6 +28,7 @@ public class BlockingIoExample {
         String request, response;
         while ((request = in.readLine()) != null) {
             if ("Done".equals(request)) {
+                System.out.println("Closing connection");
                 break;
             }
             response = processRequest(request);
@@ -36,5 +38,14 @@ public class BlockingIoExample {
 
     private String processRequest(String request){
         return "Processed";
+    }
+
+    public static void main(String[] args) {
+        BlockingIoExample blockingIoExample = new BlockingIoExample();
+        try {
+            blockingIoExample.serve(4200);
+        } catch(IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
